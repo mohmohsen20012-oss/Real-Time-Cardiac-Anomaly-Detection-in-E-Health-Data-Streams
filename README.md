@@ -1,13 +1,27 @@
-This project aims to find a solution to the problem of medical monitoring of cardiac electrical signals in intensive care units. The main problems encountered in previous projects were: 1- The length of treatment time
-2- The high incidence of false alarms
-3- The urgent need for significant resources and internet connectivity. This project is based on the Hofding tree and incremental learning. The Wilfred algorithm was used in incremental learning, drawing on several engineering concepts in the field of big data.
+This project addresses the critical issue of false alarms and processing delays in intensive care cardiac monitoring. Previous systems suffered from:
+1- High latency (slow processing time)
+2- Elevated false alarm rates
+3- Heavy reliance on resources and constant internet connectivity.
 
-The CAP and ACID principles ensure a smooth project experience, preventing any issues or delays.
+Our solution employs Hoeffding Tree theory and Incremental Learning (using Welford's algorithm) combined with Big Data engineering principles such as distributed stream processing and fault tolerance.
 
-The setup is as follows: The Procedure broadcasts data to the cores. If a core is not functioning, broadcasting to it is stopped to protect patient data. Patients are then distributed to the remaining cores within the system. The Spark handles the formal processing.
+How it works:
+The Producer broadcasts patient data (32 or 100 patients) to multiple processing cores via Apache Kafka. If a core fails, the system immediately stops sending data to it to preserve patient isolation and redistributes those patients to the remaining healthy cores. On the other side, Apache Spark Structured Streaming consumes the data and performs real-time arrhythmia detection with adaptive thresholds.
 
-Another Procedure and Spark were added as a test to adjust the number of active cores and visualize the results directly as an engineering diagram. However, some libraries need to be downloaded; the code will automatically download them within the command line.
+We also included a stress-testing module that allows adjusting the number of active cores (1, 2, 4, 8) and visualizes the performance metrics (throughput, latency, false alarm rate) as engineering charts. Required libraries are automatically downloaded when the script runs.
 
-Furthermore, the project requires an Apache Kafka server for high-quality operation, as it will not function without it.
+Important: The project requires a running Apache Kafka server; it will not operate without it.
 
-Regards, Eng. Mohammed Rafiq Mohsen, Specialist in Healthcare Systems Development
+Key Results:
+
+False alarm rate: 26.2% (below the AAMI EC57 standard of 28%)
+
+Accuracy: 96%
+
+Latency: 225ms
+
+Fault tolerance: 100% processing continuity during core failures.
+
+Regards,
+Eng. Mohammed Rafiq Mohsen
+Healthcare Systems Development Specialist
